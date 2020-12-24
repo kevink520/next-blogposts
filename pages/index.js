@@ -20,6 +20,13 @@ const Home = ({ posts }) => {
               <h1 className='text-3xl font-bold leading-tight text-gray-900'>
                 Latest posts
               </h1>
+	      <p>
+	    <Link href='/form'>
+	      <p className='underline cursor-pointer mt-2'>
+	        <a>Add a new blog</a>
+	      </p>
+	    </Link>
+	  </p>
             </div>
           </div>
         </header>
@@ -77,6 +84,7 @@ const Home = ({ posts }) => {
     </div>
   );
 };
+import Link from 'next/link';
 
 export const getStaticProps = async context => {
   const parser = new Parser();
