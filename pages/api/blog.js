@@ -1,5 +1,5 @@
 export default (req, res) => {
-  if (!req.method !== 'POST') {
+  if (req.method !== 'POST') {
     res.status(405).end();
     return;
   }
@@ -17,13 +17,13 @@ export default (req, res) => {
   base('Table 1').create([{ fields: { name, email, blogurl, feedurl, notes } }], err => {
     if (err) {
       console.error(err)
-      res.status(500).end();
+      res.status(500).json({ message: err.message });
       return;
     }
-  });
 
-  res.json({
-    success: true,
+    res.json({
+      success: true,
+    });
   });
 };
 

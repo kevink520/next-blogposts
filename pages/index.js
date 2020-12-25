@@ -20,13 +20,13 @@ const Home = ({ posts }) => {
               <h1 className='text-3xl font-bold leading-tight text-gray-900'>
                 Latest posts
               </h1>
-	      <p>
-	    <Link href='/form'>
-	      <p className='underline cursor-pointer mt-2'>
-	        <a>Add a new blog</a>
-	      </p>
-	    </Link>
-	  </p>
+              <p>
+                <Link href='/form'>
+                  <p className='underline cursor-pointer mt-2'>
+                    <a>Add a new blog</a>
+                  </p>
+                </Link>
+              </p>
             </div>
           </div>
         </header>
@@ -44,18 +44,18 @@ const Home = ({ posts }) => {
                               Post
                             </th>
                             <th className='px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider'>
-	                      Date
+                              Date
                             </th>
                           </tr>
                         </thead>
                         <tbody className='bg-white'>
-	                  {posts.sort((a, b) => new Date(b.date) - new Date(a.date)).map((value, index) => (
+                          {posts.sort((a, b) => new Date(b.date) - new Date(a.date)).map((value, index) => (
                             <tr key={index}>
                               <td className='px-6 py-4 whitespace-no-wrap border-b border-gray-200'>
                                 <div className='flex items-center'>
                                   <div className='ml-4'>
                                     <div className='text-sm leading-5 font-medium text-gray-900 underline'>
-                                       <a href={value.link}>{value.title}</a>
+                                      <a href={value.link}>{value.title}</a>
                                     </div>
                                     <div className='text-sm leading-5 text-gray-500'>
                                       {value.name}
@@ -69,8 +69,8 @@ const Home = ({ posts }) => {
                                 </div>
                                 <div className='text-sm leading-5 text-gray-500'></div>
                               </td>
-			    </tr>
-			  ))}
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
