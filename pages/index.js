@@ -117,6 +117,7 @@ export const getStaticProps = async context => {
     }
 
     return {
+      revalidate: 1,
       props: {
         posts,
       },
