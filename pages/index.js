@@ -1,5 +1,6 @@
 import Parser from 'rss-parser';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const Home = ({ posts }) => {
   return (
@@ -20,13 +21,13 @@ const Home = ({ posts }) => {
               <h1 className='text-3xl font-bold leading-tight text-gray-900'>
                 Latest posts
               </h1>
-              <p>
+              <div>
                 <Link href='/form'>
                   <p className='underline cursor-pointer mt-2'>
                     <a>Add a new blog</a>
                   </p>
                 </Link>
-              </p>
+              </div>
             </div>
           </div>
         </header>
@@ -84,24 +85,45 @@ const Home = ({ posts }) => {
     </div>
   );
 };
-import Link from 'next/link';
 
 export const getStaticProps = async context => {
-  const parser = new Parser();
-  const data = await parser.parseURL('https://flaviocopes.com/index.xml');
-  const posts = data.items.slice(0, 10).map(item => ({
-    title: item.title,
-    link: item.link,
-    date: item.isoDate,
-    name: 'Flavio Copes',
-  }));
+  try {
+    const Airtable = require('airtable');
+    const base = new Airtable({ apiKey: process.env.APIKEY }).base('app60jF3B311GSKBO');
+    const records = await base('Table 1').select({
+      view: 'Grid view',
+    }).firstPage();
 
-  return {
-    props: {
-      posts,
-    },
-  };
+    const feeds = records.filter(record => record.get('approved'))
+      .map(record => ({
+        id: record.id,
+        name: record.get('name'),
+        blogurl: record.get('blogurl'),
+        feedurl: record.get('feedurl'),
+      }));
+
+    const posts = [];
+    const parser = new Parser();
+    for (const feed of feeds) {
+      const data = await parser.parseURL(feed.feedurl);
+      data.items.slice(0, 10).forEach(item => {
+        posts.push({
+          title: item.title,
+          link: item.link,
+          date: item.isoDate,
+          name: feed.name,
+        });
+      });
+    }
+
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export default Home;
-
